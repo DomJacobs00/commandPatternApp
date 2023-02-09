@@ -17,6 +17,7 @@ public class CommandPatternApp extends Application
 	Scene scene;
 	Canvas canvas;
 	GraphicsContext gc;
+	CommandPattern commandPattern = new CommandPattern();
 	/**
 	 * Enables the mouse to be used as an input to draw on the canvas.
 	 */
@@ -24,7 +25,8 @@ public class CommandPatternApp extends Application
 	{
 		public void handle(MouseEvent event)
 		{
-			gc.strokeRect(event.getX(), event.getY(), 3, 3);
+			DrawCommand d = new DrawCommand(gc, event.getX(), event.getY());
+			commandPattern.addCommand(d);
 		}
 	};
 	/**
@@ -35,9 +37,13 @@ public class CommandPatternApp extends Application
 	{
 		public void handle(KeyEvent event)
 		{
-			if(event.getCode() == KeyCode.G)
+			if(event.getCode() == KeyCode.R)
 			{
-				gc.setStroke(Color.GREEN);
+				commandPattern.redo();
+			}
+			if(event.getCode() == KeyCode.U)
+			{
+				commandPattern.undo();
 			}
 		}
 	};
